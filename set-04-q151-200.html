@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPS-TOPIK Quiz — Set 04 (Q151–Q200)</title>
+<style>
+  :root {
+    --primary: #1a73e8;
+    --primary-dark: #1557b0;
+    --green: #188038;
+    --green-bg: #e6f4ea;
+    --red: #d93025;
+    --red-bg: #fce8e6;
+    --bg: #f0f4f9;
+    --card: #ffffff;
+    --text: #1f1f1f;
+    --muted: #5f6368;
+    --border: #dadce0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Noto Sans", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: var(--primary); font-weight: 700; font-size: .95rem; padding: 10px 20px; border-radius: 999px; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,.18); margin-bottom: 12px; transition: transform .15s, box-shadow .15s; }
+  .back-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.22); }
+  header { background: var(--primary); color: #fff; padding: 20px 16px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+  .header-inner { max-width: 760px; margin: 0 auto; }
+  header h1 { font-size: 1.35rem; line-height: 1.3; }
+  header p { opacity: .9; font-size: .9rem; margin-top: 2px; }
+  .progress-wrap { margin-top: 12px; background: rgba(255,255,255,.25); border-radius: 999px; height: 8px; overflow: hidden; }
+  .progress-bar { height: 100%; background: #fff; width: 0%; transition: width .3s; }
+  .progress-text { font-size: .82rem; margin-top: 6px; opacity: .95; }
+  main { max-width: 760px; margin: 0 auto; padding: 20px 16px 80px; }
+  .q-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .q-card.answered { border-left: 4px solid var(--primary); }
+  .q-num { font-size: .8rem; font-weight: 700; color: var(--primary); letter-spacing: .02em; }
+  .q-text { font-size: 1.08rem; white-space: pre-line; margin: 8px 0 14px; line-height: 1.8; }
+  .options label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: background .15s, border-color .15s; font-size: 1.02rem; }
+  .options label:hover { background: #f8f9fa; border-color: var(--primary); }
+  .options input { margin-top: 5px; accent-color: var(--primary); width: 18px; height: 18px; flex: none; }
+  .options label.selected { background: #e8f0fe; border-color: var(--primary); }
+  .pager { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 8px 0 20px; flex-wrap: wrap; }
+  .pager .page-info { font-weight: 600; color: var(--muted); }
+  button { font: inherit; cursor: pointer; border: none; border-radius: 8px; padding: 11px 22px; font-weight: 600; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-primary:disabled { background: #a8c7fa; cursor: not-allowed; }
+  .btn-ghost { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+  .submit-bar { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--border); padding: 14px 16px; display: flex; justify-content: center; box-shadow: 0 -2px 8px rgba(0,0,0,.08); }
+  .submit-bar .inner { max-width: 760px; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .submit-bar .hint { color: var(--muted); font-size: .9rem; }
+  /* Results */
+  .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 20px; text-align: center; margin-bottom: 20px; }
+  .score-card .big { font-size: 2.6rem; font-weight: 800; color: var(--primary); line-height: 1.1; }
+  .score-card .pct { font-size: 1.1rem; color: var(--muted); margin-top: 4px; }
+  .score-card .msg { margin-top: 10px; font-size: 1rem; }
+  .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters button { padding: 8px 16px; }
+  .filters button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .review-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
+  .review-card.correct { border-left: 5px solid var(--green); }
+  .review-card.wrong { border-left: 5px solid var(--red); }
+  .verdict { font-weight: 700; font-size: .95rem; margin-bottom: 6px; }
+  .verdict.ok { color: var(--green); }
+  .verdict.no { color: var(--red); }
+  .review-card .ans-line { margin: 4px 0; }
+  .review-card .ans-line b { font-weight: 700; }
+  .review-card .ans-line .mine-wrong { color: var(--red); }
+  .review-card .ans-line .right { color: var(--green); }
+  .explain { background: #f8f9fa; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: .96rem; }
+  .explain b { color: var(--primary-dark); }
+  .hidden { display: none; }
+  footer { text-align: center; color: var(--muted); font-size: .82rem; padding: 20px; }
+  @media (max-width: 520px) {
+    header h1 { font-size: 1.15rem; }
+    .q-text { font-size: 1rem; }
+    .submit-bar .hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="back-btn">&larr; Back to All 12 Sets</a>
+    <h1>EPS-TOPIK 문제은행 Quiz</h1>
+    <p>Set 4 of 12 &bull; Questions 151–200 &bull; 50 questions &bull; OurFriend Korean Language Institute</p>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-text" id="progressText">0 / 50 answered</div>
+    <div style="font-size:.78rem; margin-top:4px; opacity:.85;">Progress will be auto-saved.</div>
+  </div>
+</header>
+
+<main id="quizView">
+  <div id="questionList"></div>
+  <div class="pager">
+    <button class="btn-ghost" id="prevBtn">&larr; Previous</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button class="btn-ghost" id="nextBtn">Next &rarr;</button>
+  </div>
+</main>
+
+<div class="submit-bar" id="submitBar">
+  <div class="inner">
+    <span class="hint" id="submitHint">Answer all 50, then submit.</span>
+    <div style="display:flex; gap:8px; flex:none;">
+      <button class="btn-ghost" id="clearBtn" style="padding:11px 16px;">Clear all</button>
+      <button class="btn-primary" id="submitBtn">Submit Quiz</button>
+    </div>
+  </div>
+</div>
+
+<main id="resultView" class="hidden">
+  <div class="score-card">
+    <div class="big" id="scoreBig"></div>
+    <div class="pct" id="scorePct"></div>
+    <div class="msg" id="scoreMsg"></div>
+    <div style="margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn-primary" id="retryBtn">Try Again</button>
+      <button class="btn-ghost" id="reviewTopBtn">Back to top</button>
+    </div>
+  </div>
+  <div class="filters">
+    <button class="btn-ghost active" data-filter="all">All questions</button>
+    <button class="btn-ghost" data-filter="wrong">Wrong only</button>
+    <button class="btn-ghost" data-filter="correct">Correct only</button>
+  </div>
+  <div id="reviewList"></div>
+</main>
+
+<script>
+const QUESTIONS = [{"n": 151, "q": "가: 희철 씨! 목소리가 너무 ______ 잘\n안 들려요. 크게 얘기해 주세요.\n나: 알겠어요. 크게 얘기할게요.\nOptions: 1. 커서 | 2. 작아서 | 3. 무거워서 | 4. 가벼워서", "options": ["커서", "작아서", "무거워서", "가벼워서"], "answer": 1, "explain": "작아서 ले 'सानो भएर' भन्ने अर्थ दिन्छ। आवाज धेरै सानो छ त्यसैले सुनिएको छैन, ठूलो स्वरले बोल्नुहोस् भन्दा यो मिल्छ। अरू विकल्पहरू ठूलो, भारी र हलुका हुन्।"}, {"n": 152, "q": "가: 우리 과장님은 너무 ____ 보려요.\n안 그래요?\n나: 맞아요. 쉰 살이 넘으셨는데 삼십 대\n처럼 보여요.\nOptions: 1. 커 | 2. 작아 | 3. 젊어 | 4. 늙어", "options": ["커", "작아", "젊어", "늙어"], "answer": 2, "explain": "젊어 ले 'युवा देखिएको/तन्नेरी देखिएको' भन्ने अर्थ दिन्छ। उमेर ५० वर्षभन्दा बढी भए पनि ३० वर्षको जस्तो देखिनु भनेको युवा देखिनु हो। अरू विकल्पहरू ठूलो, सानो र बुढो हुन्।"}, {"n": 153, "q": "우리 집은 큰길에서 가깝고 근처에 시장\n도 있어요. 교통도 편리해요. 그렇지만\n자동차 소리와 사람들 소리 때문에 시끄\n러워서 ____ 곳으로 이사하고 싶어요.\nOptions: 1. 편안한 | 2. 조용한 | 3. 더러운 | 4. 깨끗한", "options": ["편안한", "조용한", "더러운", "깨끗한"], "answer": 1, "explain": "조용한 ले 'शान्त' भन्ने अर्थ दिन्छ। गाडीको आवाज र मानिसको कोलाहलका कारण हल्ला भएको हुनाले यसबाट टाढा गएर शान्त ठाउँमा बसाइँ सर्ने इच्छा देखाउँछ। अरू विकल्पहरू सहज, फोहोर र सफा हुन्।"}, {"n": 154, "q": "가: 알리 씨, 일보다는 건강이 더 ____.\n건강에 더 신경 쓰세요.\n나: 고마워요. 역시 민수 씨밖에 없어요.\nOptions: 1. 많아요 | 2. 복잡해요 | 3. 위험해요 | 4. 중요해요", "options": ["많아요", "복잡해요", "위험해요", "중요해요"], "answer": 3, "explain": "중요해요 ले 'महत्वपूर्ण छ' भन्ने अर्थ दिन्छ। कामभन्दा स्वास्थ्य बढी महत्वपूर्ण हुन्छ त्यसैले स्वास्थ्यमा ध्यान दिनुहोस् भन्दा यो मिल्छ। अरू विकल्पहरू धेरै, जटिल र खतरनाक हुन्।"}, {"n": 155, "q": "가: 눈이 많이 오네요. 눈이 그친 후에는\n기온이 영하로 내려갈 거예요.\n나: 그럼 날씨가 _______.\nOptions: 1. 추워지겠네요 | 2. 낮아지겠네요 | 3. 빨라지겠네요 | 4. 더워지겠네요", "options": ["추워지겠네요", "낮아지겠네요", "빨라지겠네요", "더워지겠네요"], "answer": 0, "explain": "추워지겠네요 ले 'चिसो हुनेछ' भन्ने अर्थ दिन्छ। हिउँ परेपछि तापक्रम माइनसमा झर्ने हुनाले मौसम चिसो हुँदै जान्छ भन्ने कुरालाई बुझाउँछ। अरू विकल्पहरू कम हुने, छिटो हुने र तातो हुने हुन्।"}, {"n": 156, "q": "가: 민수 씨는 정말 ______ 것 같아요. 힘\n든 일이 있을 때 항상 저를 잘 도와줘요.\n나: 맞아요. 제가 뭘 물어봐도 잘 가르쳐\n줘요.\nOptions: 1. 무서운 | 2. 어려운 | 3. 친절한 | 4. 재미있는", "options": ["무서운", "어려운", "친절한", "재미있는"], "answer": 2, "explain": "친절한 ले 'दयालु/सहयोगी' भन्ने अर्थ दिन्छ। गाह्रो काम पर्दा सधैं राम्ररी सहयोग गर्ने र सोध्दा पनि राम्ररी सिकाइदिने स्वभावलाई 친절하다 भनिन्छ। अरू विकल्पहरू डरलाग्दो, गाह्रो र रमाइलो हुन्।"}, {"n": 157, "q": "오늘 늦게까지 야근을 해서 ______ 내일\n아침에 일어날 수 없는 것 같아요.\nOptions: 1. 어려우니까 | 2. 가벼우니까 | 3. 더러우니까 | 4. 피곤하니까", "options": ["어려우니까", "가벼우니까", "더러우니까", "피곤하니까"], "answer": 3, "explain": "피곤하니까 ले 'थाकेको हुनाले' भन्ने अर्थ दिन्छ। आज ढिलासम्म ओभरटाइम (야근) काम गरेको हुनाले भोलि बिहान उठ्न गाह्रो वा थकान महसुस हुन्छ भन्ने सन्दर्भसँग यो मिल्छ। अरू विकल्पहरू गाह्रो, हलुका र फोहोर हुन्।"}, {"n": 158, "q": "통장을 만들려면 신분증이 ______. 잊어\n버리지 말고 꼭 가져오세요.\nOptions: 1. 심심합니다 | 2. 위험합니다 | 3. 조심합니다 | 4. 필요합니다", "options": ["심심합니다", "위험합니다", "조심합니다", "필요합니다"], "answer": 3, "explain": "필요합니다 ले 'आवश्यक पर्छ' भन्ने अर्थ दिन्छ। बैंक खाता खोल्नका लागि परिचय पत्र (신분증) अनिवार्य चाहिने हुनाले यो विकल्प सही हुन्छ। अरू विकल्पहरू बोरिङ लाग्छ, खतरनाक हुन्छ र सावधानी अपनाउँछ हुन्।"}, {"n": 159, "q": "가: 요즘도 많이 바쁘세요?\n나: 아니요, 급한 일을 다 끝내서 요즘은\n좀 _____.\nOptions: 1. 쉬워요 | 2. 한가해요 | 3. 깨끗해요 | 4. 재미없어요", "options": ["쉬워요", "한가해요", "깨끗해요", "재미없어요"], "answer": 1, "explain": "한가해요 ले 'फुर्सदिलो छ/शान्त छ' भन्ने अर्थ दिन्छ। हतारका सबै कामहरू सकिसकेकाले आजकल अलि फुर्सद छ/आरामदायी छ भन्ने अर्थ दिन्छ। अरू विकल्पहरू सजिलो, सफा र बोरिङ हुन्।"}, {"n": 160, "q": "가: 우리 회사에서 일하려면 무거운 것\n도 들어야 하니까 처음에느 ____ 거예\n요.\n나: 괜찮습니다. 열심히 하겠습니다.\nOptions: 1. 쉬울 | 2. 많을 | 3. 힘들 | 4. 가벼울", "options": ["쉬울", "많을", "힘들", "가벼울"], "answer": 2, "explain": "힘들 거예요 ले 'गाह्रो हुनेछ' भन्ने अर्थ दिन्छ। कम्पनीमा भारी सामान पनि उठाउनुपर्ने भएकाले सुरुमा काम गर्न कठिन वा गाह्रो हुनेछ भन्ने चेतावनीमा यो मिल्छ। अरू विकल्पहरू सजिलो, धेरै र हलुका हुन्।"}, {"n": 161, "q": "가: 부모님께 전화를 자주 하세요?\n나: 아니요, 바빠서 자주 하지는 못하고, ______ 해요.", "options": ["잘", "늘", "가끔", "방금"], "answer": 2, "explain": "가끔 (कम्) भनेको 'कहिलेकाहीं' हो। प्रश्नमा व्यस्त भएर सधैं फोन गर्न नसक्ने र 'कहिलेकाहीं' फोन गर्ने बताएकोले यो मिल्छ। '잘', '늘', '방금' यहाँ अर्थ अनुसार मिल्दैनन्।"}, {"n": 162, "q": "가: 알리 씨, 어디 아파요? 얼굴색이 안 좋아요.\n나: 그냥 좀 피곤해서 그래요. 지난 일주일 동안 쉬지 않고 ____ 일했거든요.", "options": ["계속", "잠깐", "자주", "가끔"], "answer": 0, "explain": "계속 (खेसोक) भनेको 'निरन्तर' वा 'लगातार' हो। एक हप्तासम्म विश्राम नगरी निरन्तर काम गरेकाले थकित भएको अर्थ बुझाउँछ। '잠깐', '자주', '가끔' ले लगातार काम गरेको अर्थ दिँदैन।"}, {"n": 163, "q": "가: 명준 씨, 우리 지금 출발할 건데 같이 갑시다.\n나: 먼저 가세요. 저는 지금은 갈 수가 없어요. 제가 ______ 따라 갈게요.", "options": ["벌써", "아직", "일찍", "나중에"], "answer": 3, "explain": "나중에 (ना중에) भनेको 'पछि' हो। अहिले जान सक्दिनँ पछि पछ्याएर जानेछु भन्ने अर्थमा यो मिल्छ। '벌써', '아직', '일찍' यहाँ मिल्दैनन्।"}, {"n": 164, "q": "월요일부터 토요일까지는 매일 아침 9시까지 출근해야 합니다. 그렇지만 오늘은 일요일이라서 회사에 가지 않습니다. 그래서 ______ 일어났습니다.", "options": ["늦게", "크게", "많게", "적게"], "answer": 0, "explain": "늦게 (नित्गे) भनेको 'ढिलो' हो। आइतबार काममा जानु नपर्ने हुनाले ढिलो उठें भन्ने अर्थ दिन्छ। '크게', '많게', '적게' ले ढिलो उठेको अर्थ दिँदैन।"}, {"n": 165, "q": "가: 여기 계산이 잘못 되었는데요.\n나: 아! 죄송합니다, 손님. ______ 계산해 드리겠습니다.", "options": ["더", "안", "아직", "다시"], "answer": 3, "explain": "다시 (तासी) भनेको 'फेरि' हो। हिसाब गल्ती भएकोले फेरि हिसाब गरेर दिन्छु भन्न '다시' प्रयोग हुन्छ। '더', '안', '아직' यहाँ उपेक्षित अर्थमा मिल्दैनन्।"}, {"n": 166, "q": "가: 이것도 좀 드셔 보세요. 정말 맛있어요.\n나: 고맙지만 배가 불러서 ______ 먹을 수가 없어요. 너무 많이 먹었어요.", "options": ["더", "꼭", "안", "못"], "answer": 3, "explain": "못 (मोत) ले 'सक्दिनँ' भन्ने असामर्थ्य जनाउँछ। पेट भरिएकोले खान 'सक्दिनँ' भन्न '못 먹어요' हुन्छ। '더', '꼭', '안' भन्दा यहाँ '못' व्याकरण र अर्थ दुवैमा ठीक हुन्छ।"}, {"n": 167, "q": "가: 주말에 시간 있어요? 같이 영화 볼래요?\n나: 네, 좋아요. 주말에는 사람이 많으니까 ______ 표를 사 놓는 게 좋겠어요.", "options": ["미리", "아까", "아직", "벌써"], "answer": 0, "explain": "미리 (मिरी) भनेको 'अहिले नै' वा 'पहिले नै' हो। सप्ताहन्तमा मानिस धेरै हुने भएकाले पहिले नै टिकट किनिराख्नु राम्रो हुन्छ भन्न मिल्छ। '아까', '아직', '벌써' मिलेनन्।"}, {"n": 168, "q": "가: 제가 보낸 이메일(전자우편) 받으셨어요?\n나: 아뇨, ______ 못 받았어요. 확인하면 바로 연락 드릴게요.", "options": ["벌써", "빨리", "아직", "자주"], "answer": 2, "explain": "아직 (आजिक्) भनेको 'अझै' हो। इमेल अझै पाइएको छैन भन्ने अर्थमा '아직 못 받았어요' भनिन्छ। '벌써', '빨리', '자주' यहाँ मिल्दैनन्।"}, {"n": 169, "q": "가: 희철 씨, 영화를 좋아해요?\n나: 네, 굉장히 좋아해요. 그래서 친구들과 극장에 ______ 가요.", "options": ["방금", "별로", "조금", "자주"], "answer": 3, "explain": "자주 (चाजु) भनेको 'प्रायः' हो। सिनेमा धेरै मन पर्ने भएकोले साथीहरूसँग हलमा प्रायः जान्छु भन्ने अर्थ सही हुन्छ। '방금', '별로', '조금' उपयुक्त छैनन्।"}, {"n": 170, "q": "가: 이 일을 빨리 끝내야 합니까?\n나: 아니요, 급하지 않습니다. 시간이 많으니까 ______ 하셔도 됩니다.", "options": ["일찍", "빨리", "깨끗이", "천천히"], "answer": 3, "explain": "천천히 (छन्छन्히) भनेको 'बिस्तारै' हो। हतार नभएको र समय धेरै भएकोले बिस्तारै गर्दा हुन्छ भन्ने अर्थ दिन्छ। '일찍', '빨리', '깨끗이' यहाँ मिल्दैनन्।"}, {"n": 171, "q": "나는 저녁 식사 후에 ____ 운동을 합니다. 비가 와도 눈이 와도 매일 운동을 합니다. 건강해야 일도 잘하고 행복하게 살 수 있기 때문입니다.", "options": ["가끔", "벌써", "전혀", "항상"], "answer": 3, "explain": "항상 (हाङसाङ) भनेको 'सधैं' हो। वर्षा भए पनि हिउँ परे पनि '매일' (प्रत्येक दिन) व्यायाम गर्ने हुनाले सधैं व्यायाम गर्छु भन्ने अर्थ ठीक हुन्छ। '가끔', '벌써', '전혀' मिलेनन्।"}, {"n": 172, "q": "가: 꽃이 참 예쁘네요. ____ 받았어요?\n나: 남자친구구가 보낸 거예요. 오늘이 제생일이거든요.", "options": ["언제부터", "누구한테서", "무슨 요일에", "어느 나라에서"], "answer": 1, "explain": "누구한테서 (नूगुहान्तेस) भनेको 'कसबाट' हो। फूल कसबाट पाायौ? भन्ने प्रश्नको उत्तरमा प्रेमीले पठाएको भनेकाले यो मिल्छ। '언제부터', '무슨 요일에', '어느 나라에서' मिल्दैनन्।"}, {"n": 173, "q": "가: 실례지만 ______ 일을 하세요?\n나: 자동차 부품을 만드는 일을 하고 있어요.", "options": ["몇", "왜", "무슨", "언제"], "answer": 2, "explain": "무슨 (मूसुन) भनेको 'कुन' वा 'के' प्रकारको हो। '무슨 일을 하세요?' ले 'के काम गर्नुहुन्छ?' भन्ने अर्थ दिन्छ। '몇', '왜', '언제' यहाँ मिल्दैनन्।"}, {"n": 174, "q": "가: 지하철 4호선을 타려면 ______ 쪽으로 가야 해요?\n나: 여기서 왼쪽으로 가세요.", "options": ["몇", "무엇", "무슨", "어느"], "answer": 3, "explain": "어느 (अथनु) भनेको 'कुन' दिशा वा पक्ष भन्ने जनाउन प्रयोग हुन्छ। '어느 쪽' भन्दा कुن तर्फ भन्ने बुझाउँछ। '몇', '무엇', '무슨' यहाँ ठ्याक्कै मिल्दैनन्।"}, {"n": 175, "q": "가: 여기까지 ______ 오셨어요?\n나: 버스를 타고 왔어요.", "options": ["왜", "언제", "어떻게", "어디서"], "answer": 2, "explain": "어떻게 (अत्तोखे) भनेको 'कसरी' हो। बस चढेर आएको जवाф दिएकोले यहाँ 'कसरी आउनुभयो?' भन्ने प्रश्न सोधिएको हो। '왜', '언제', '어디서' मिल्दैनन्।"}, {"n": 176, "q": "강한 빛이 많이 나오는 곳에서 작업을 할 때는 눈을 보호하는 ______을/를 반드시 써야 합니다.", "options": ["보안경", "안전화", "안전벨트", "안전장갑"], "answer": 0, "explain": "보안경 (पोआनग्यङ) भनेको 'सुरुक्षार्थ चस्मा (Safety goggles)' हो। धेरै उज्यालो प्रकाश आउने ठाउँमा काम गर्दा आँखा जोगाउन चस्मा लगाउनुपर्छ। '안전화', '안전벨트', '안전장갑' ले आँखा जोगाउँदैन।"}, {"n": 177, "q": "철을 녹여서 붙이거나 잇는 ______을 할 때는 불꽃이 일어납니다. 불꽃이 일어나는 작업을 할 때는 반드시 눈과 얼굴을 보호하는 보안면을 써야 합니다.", "options": ["용접 작업", "절단 작업", "페인트 작업", "프레스 작업"], "answer": 0, "explain": "용접 작업 (योङजप जाकप) भनेको 'वेल्डिङको काम' हो। फलाम पगालेर जोड्ने काम गर्दा आगोको फिलिंग निस्कन्छ र सुरक्षाका लागि 보안면 (वेल्डिंग मास्क) लगाउनुपर्छ। अन्य विकल्पहरू यसमा मिल्दैनन्।"}, {"n": 178, "q": "불이 쉽게 붙을 수 있는 인화성 물질 근처에서는 ______을/를 해야 합니다.", "options": ["금지", "금연", "금식", "공사"], "answer": 1, "explain": "금연 (कुम्योन) भनेको 'धूमपान निषेध' हो। सजिलै आगो टिप्ने ज्वलनशील पदार्थ भएको ठाउँमा चुरोट पिउन निषेध गर्नुपर्छ। '금지', '금식', '공사' यहाँ उपयुक्त छैनन्।"}, {"n": 179, "q": "발화성 물질은 ____이/가 높아지면 저절로 불이 납니다. 그렇기 때문에 발화성 물질은 바람이 잘 통하는 선선한 장소에 보관해야 합니다.", "options": ["온도", "습도", "무게", "높이"], "answer": 0, "explain": "온도 (ओन्दो) भनेको 'तापक्रम' हो। प्रज्वलनशील पदार्थको तापक्रम बढ्दा आफैं आगो लाग्छ, त्यसैले चिसो ठाउँमा राख्नुपर्छ। '습도', '무게', '높이' ले आफैं आगो लाग्ने कारण जनाउँदैन।"}, {"n": 180, "q": "용접 작업을 할 때는 불꽃이 튀어 불이 날 수 있습니다. 그러므로 가까이에 반드시 ____를 준비해 두어야 합니다.", "options": ["난방기", "사진기", "승강기", "소화기"], "answer": 3, "explain": "소화기 (सोह्वागी) भनेको 'अग्निविमान्धक यन्त्र (Fire extinguisher)' हो। वेल्डिङ गर्दा आगोको फिलिंग उडेर आगलागी हुनसक्ने हुनाले नजिकै अग्निपीडक यन्त्र राख्नुपर्छ। '난방기', '사진기', '승강기' यहाँ काम लाग्दैनन्।"}, {"n": 181, "q": "높은 곳에서 작업을 할 때는 아래로 떨어질 위험이 있습니다. 그러므로 반드시 ____을/를 매고 일을 해야 합니다.", "options": ["마스크", "안전화", "보안경", "안전대"], "answer": 3, "explain": "उच्चो ठाउँमा काम गर्दा खस्ने जोखिम हुने हुनाले '안전대' (सुरक्षा पेटी) बाँध्नुपर्छ। अरू विकल्पहरू मास्क, सुरक्षा जुत्ता र चस्मा खस्ने जोखिमसँग सम्बन्धित छैनन्।"}, {"n": 182, "q": "____는 위험으로부터 우리 몸을 지켜주는 안전모, 안전화, 보안경 등을 말합니다. 우리는 일하기 전에 반드시 이것들을 착용해야 합니다.", "options": ["승강기", "소화기", "비상구", "보호구"], "answer": 3, "explain": "सुरक्षा टोपी, सुरक्षा जुत्ता, सुरक्षा चस्मा जस्ता शरीरको बचाउ गर्ने सामानहरूलाई '보호구' (सुरक्षात्मक उपकरण) भनिन्छ। अरू विकल्पहरू लिफ्ट, अग्निशामक यन्त्र र आपतकालीन ढोका हुन्।"}, {"n": 183, "q": "가스, 휘발유, 페인트, 시너 등 불이 쉽게 잘 붙을 수 있는 물질을 ______ 물질이라고 합니다.", "options": ["인화성", "안전성", "휘발성", "전염성"], "answer": 0, "explain": "ग्यास, पेट्रोल, पेइन्ट जस्ता आगो सजिलै टिपառ्ने वस्तुहरूलाई '인화성' (ज्वलनशील) पदार्थ भनिन्छ। अरू विकल्पहरू स्थिरता, वाष्पशीलता र संक्रामक हुन्।"}, {"n": 184, "q": "이 작업장에는 먼지가 많으니까 반드시 ______을/를 써서 먼지를 마시지 않도록 하십시오.", "options": ["마스크", "보안경", "귀마개", "보안면"], "answer": 0, "explain": "कार्यस्थलमा धेरै धुलो हुने हुनाले धुलो नखानको लागि अनिवार्य रूपमा '마스크' (मास्क) लगाउनुपर्छ। अरू विकल्पहरू सुरक्षा चस्मा, इयरप्लग र सुरक्षा अनुहार ढाल हुन्।"}, {"n": 185, "q": "일이 끝난 후에는 기계를 만들거나 분해, 조립하는 데 사용한 ______을/를 정리 정돈 하십시오.", "options": ["먼지", "공구", "음식", "청소기"], "answer": 1, "explain": "काम सकेपछि मेशिन बनाउन, खोलेर मिलाउन प्रयोग गरिने '공구' (औजार) हरूलाई मिलाएर राख्नुपर्छ। अरू विकल्पहरू धुलो, खाना र भ्याकुम क्लिनर हुन्।"}, {"n": 186, "q": "이 기계는 맨손으로 만지면 감전이 될 위험이 있습니다. 그러므로 반드시 ______을/를 끼고 사용해야 합니다.", "options": ["안전모", "안전화", "보안경", "안전장갑"], "answer": 3, "explain": "खाली हातले छुँदा करेन्ट लाग्ने खतरा हुने भएकोले '안전장갑' (सुरक्षा पन्जा) लगाएर प्रयोग गर्नुपर्छ। अरू विकल्पहरू सुरक्षा टोपी, सुरक्षा जुत्ता र सुरक्षा चस्मा हुन्।"}, {"n": 187, "q": "공사장에서 일할 때는 머리를 보호해 주는______을/를 반드시 착용해야 합니다.", "options": ["안전모", "보안경", "마스크", "귀마개"], "answer": 0, "explain": "निर्माण स्थलमा काम गर्दा टाउको जोगाउने '안전모' (सुरक्षा टोपी) अनिवार्य लगाउनुपर्छ। अरू विकल्पहरू सुरक्षा चस्मा, मास्क र इयरप्लग हुन्।"}, {"n": 188, "q": "컨베이어를 검사하거나 수리할 때는 스위치에 \"___\"이라는 표지판을 붙여서, 다른 사람이 컨베이어를 작동시키지 않도록 해야 합니다.", "options": ["점검 중", "외출 중", "식사 중", "통화 중"], "answer": 0, "explain": "कन्भेयर जाँच वा मर्मत गर्दा अरूले नचलाउन् भनेर '점검 중' (परीक्षण भइरहेको) साइन बोर्ड टाँस्नुपर्छ। अरू विकल्पहरू बाहिर गएको, खाना खाएको र फोनमा कुरा गरिरहेको हुन्।"}, {"n": 189, "q": "일이 끝나면 반드시 기계의 스위치를 내리고 플러그를 뽑아서 ______을/를 차단 해야 합니다.", "options": ["물", "전원", "가스", "휘발유"], "answer": 1, "explain": "काम सकेपछि मेशिनको स्विच अफ गरेर प्लग झिकेर '전원' (विद्युत पावर) काट्नुपर्छ। अरू विकल्पहरू पानी, ग्यास र पेट्रोल हुन्।"}, {"n": 190, "q": "____은/는 사람들이 안전하게 지나다닐 수 있도록 만든 길입니다.", "options": ["안전 통로", "안전 점검", "안전 수칙", "안전 교육"], "answer": 0, "explain": "मानिसहरू सुरक्षित रूपमा हिँडडुल गर्न बनाइएको बाटोलाई '안전 통로' (सुरक्षित बाटो) भनिन्छ। अरू विकल्पहरू सुरक्षा जाँच, सुरक्षा नियम र सुरक्षा शिक्षा हुन्।"}, {"n": 191, "q": "시끄러운 소리가 나는 곳에서 오랫동안 일하면 쉽게 피곤해지고, 귀에 문제가 생길 수 있습니다. 그러므로 기계 소리가 큰 곳에서는 반드시 ______을/를 착용하고 작업해야 합니다.", "options": ["작업복", "안전화", "귀마개", "보안면"], "answer": 2, "explain": "ठूलो आवाज आउने ठाउँमा कानको समस्या आउन नदिन अनिवार्य रूपमा '귀마개' (इयरप्लग/कानमा लगाउने) लगाउनुपर्छ। अरू विकल्पहरू काम गर्ने पोसाक, सुरक्षा जुत्ता र सुरक्षा अनुहार ढाल हुन्।"}, {"n": 192, "q": "우리 ______에는 닭이 5,000 마리가 있습니다. 여기에서 계란이 하루에 약 2,500개 정도 나옵니다.", "options": ["양계장", "외양간", "공사장", "돼지우리"], "answer": 0, "explain": "कुखुरा पाल्ने र अन्डा उत्पादन गर्ने ठाउँलाई '양계장' (कुखुरा फार्म) भनिन्छ। अरू विकल्पहरू गोठ, निर्माण स्थल र बंगुरको खोर हुन्।"}, {"n": 193, "q": "소, 돼지, 닭 같은 가축을 기르는 건물을 ____(이)라고 합니다.", "options": ["회사", "축사", "공장", "기숙사"], "answer": 1, "explain": "गाई, बंगुर, कुखुरा जस्ता घरेलु जनावरहरू पाल्ने भवनलाई '축사' (गोठ/पशुशाला) भनिन्छ। अरू विकल्पहरू कम्पनी, कारखाना र होस्टेल हुन्।"}, {"n": 194, "q": "전기가 몸으로 들어와 사람이 다치는 것을 ____(이)라고 말합니다. 젖은 손으로 전기 기계나 전선을 만지면 이런 사고가 날 수 있으니 항상 조심해야 합니다.", "options": ["추락", "감기", "감전", "폭발"], "answer": 2, "explain": "शरीरमा बिजुली प्रवेश गरेर घाइते हुनेलाई '감전' (करेन्ट लाग्नु) भनिन्छ। अरू विकल्पहरू खस्नु, रुघा लाग्नु र विस्फोट हुन्।"}, {"n": 195, "q": "가스는 편리하지만 ____의 위험이 있기 때문에 항상 조심해서 사용 해야 합니다.", "options": ["폭발", "감전", "추락", "금연"], "answer": 0, "explain": "ग्यास सजिलो भए पनि '폭발' (विस्फोट) को जोखिम हुने भएकाले सावधानी अपनाउनुपर्छ। अरू विकल्पहरू करेन्ट, खस्नु र धूमपान निषेध हुन्।"}, {"n": 196, "q": "우리는 일할 때 제일 먼저 ____을/를 생각해야 합니다. 무엇보다도 중요한 것은 우리의 생명이기 때문에 회사에서도 정기적으로 이것에 대한 교육을 해야 해요.", "options": ["금연", "안전", "감전", "임금"], "answer": 1, "explain": "सबैभन्दा महत्वपूर्ण जीवन भएकोले काम गर्दा सधैँ पहिलो प्राथमिकता '안전' (सुरक्षा) मा दिनुपर्छ। अरू विकल्पहरू धूमपान निषेध, करेन्ट र ज्याला हुन्।"}, {"n": 197, "q": "운전할 때는 ______ 안 됩니다. 너무 빨리 달리면 사고가 나기 쉽기 때문입니다. 또 정해진 속도 이상으로 달리면 벌금을 내야 하는 경우도 생깁니다.", "options": ["금연하면", "흡연하면", "과속하면", "과식하면"], "answer": 2, "explain": "गाडी चलाउँदा छिटो कुदाएमा दुर्घटना हुने र जरिवाना तिर्नुपर्ने भएकोले '과속하면' (गति सीमा नाघेमा/तीब्र गति चलाएमा) हुँदैन। अरू विकल्पहरू धूमपान, चुरोट खानु र धेरै खानु हुन्।"}, {"n": 198, "q": "높은 장소에서 일을 할 때는 ______의 위험이 있습니다. 그래서 항상 안전대를 먼저 착용한 후에 작업을 시작해야 합니다.", "options": ["폭발", "충돌", "감전", "추락"], "answer": 3, "explain": "ऊँचो स्थानमा काम गर्दा '추락' (माथिबाट खस्ने) को जोखिम हुन्छ, त्यसैले सुरक्षा पेटी लगाउनुपर्छ। अरू विकल्पहरू विस्फोट, ठोक्किनु र करेन्ट हुन्।"}, {"n": 199, "q": "식물이 잘 자랄 수 있는 좋은 땅을 만들기 위해 땅에 주는 똥, 오줌, 썩은 음식물 등을 ______(이)라고 합니다.", "options": ["거름", "농약", "사료", "먹이"], "answer": 0, "explain": "बिरुवा राम्रोसँग बढ्न माटोमा हालिने मलमूत्र, सडेको खानालाई '거름' (मल/कम्पोस्ट मल) भनिन्छ। अरू विकल्पहरू विषादी, पशु आहार र दाना हुन्।"}, {"n": 200, "q": "소, 돼지, 닭 같은 가축들에게 주는 음식을 _____(이)라고 합니다.", "options": ["식사", "사료", "거름", "비료"], "answer": 1, "explain": "गाई, बंगुर, कुखुरा जस्ता घरपालुवा जनावरलाई खुवाउने खानालाई '사료' (पशु दाना) भनिन्छ। अरू विकल्पहरू मानिसको खाना, मल र रासायनिक मल हुन्।"}];
+
+const PER_PAGE = 20;
+const TOTAL = QUESTIONS.length;
+const SET_ID = 'eps-set-04';
+const answers = {}; // question index -> chosen option index
+let page = 0;
+let submitted = false;
+let reviewFilter = 'all';
+
+// --- progress auto-save (localStorage) ---
+// Saved per set (key includes SET_ID), so each set file keeps its own
+// progress. Wrapped in try/catch: if the browser blocks storage, the quiz
+// still works, it just won't remember progress.
+const STORE_KEY = 'eps-quiz-' + SET_ID;
+function storeAvailable() {
+  try { localStorage.setItem('__eps_test__', '1'); localStorage.removeItem('__eps_test__'); return true; }
+  catch (e) { return false; }
+}
+const storeOK = storeAvailable();
+function saveProgress() {
+  if (!storeOK) return;
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ answers: answers, page: page })); } catch (e) {}
+}
+function loadProgress() {
+  if (!storeOK) return;
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data && data.answers) {
+      Object.keys(data.answers).forEach(k => { answers[k] = data.answers[k]; });
+      if (typeof data.page === 'number' && data.page >= 0 && data.page < Math.ceil(TOTAL / PER_PAGE)) page = data.page;
+    }
+  } catch (e) {}
+}
+function clearProgress() {
+  if (storeOK) { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+}
+loadProgress();
+
+const $ = (id) => document.getElementById(id);
+const circled = ['①','②','③','④'];
+
+function updateProgress() {
+  const done = Object.keys(answers).length;
+  $('progressBar').style.width = (done / TOTAL * 100) + '%';
+  $('progressText').textContent = done + ' / ' + TOTAL + ' answered';
+  $('submitHint').textContent = done === TOTAL ? 'All answered — ready to submit!' : (TOTAL - done) + ' unanswered (counted wrong on submit).';
+}
+
+function renderPage() {
+  const list = $('questionList');
+  list.innerHTML = '';
+  const start = page * PER_PAGE;
+  const end = Math.min(start + PER_PAGE, TOTAL);
+  for (let i = start; i < end; i++) {
+    const q = QUESTIONS[i];
+    const card = document.createElement('div');
+    card.className = 'q-card' + (answers[i] !== undefined ? ' answered' : '');
+    card.innerHTML =
+      '<div class="q-num">Question ' + q.n + '</div>' +
+      '<div class="q-text"></div>' +
+      '<div class="options"></div>';
+    card.querySelector('.q-text').textContent = q.q;
+    const opts = card.querySelector('.options');
+    q.options.forEach((opt, oi) => {
+      const label = document.createElement('label');
+      if (answers[i] === oi) label.classList.add('selected');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'q' + i;
+      input.checked = answers[i] === oi;
+      input.addEventListener('change', () => {
+        answers[i] = oi;
+        card.classList.add('answered');
+        card.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        updateProgress();
+        saveProgress();
+      });
+      const span = document.createElement('span');
+      span.textContent = circled[oi] + ' ' + opt;
+      label.appendChild(input);
+      label.appendChild(span);
+      opts.appendChild(label);
+    });
+    list.appendChild(card);
+  }
+  $('pageInfo').textContent = 'Page ' + (page + 1) + ' of ' + Math.ceil(TOTAL / PER_PAGE) + '  (Q' + QUESTIONS[start].n + '–Q' + QUESTIONS[end - 1].n + ')';
+  $('prevBtn').disabled = page === 0;
+  $('nextBtn').disabled = end >= TOTAL;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitQuiz() {
+  const unanswered = TOTAL - Object.keys(answers).length;
+  if (unanswered > 0 && !confirm(unanswered + ' question(s) still unanswered — they will count as wrong. Submit anyway?')) return;
+  submitted = true;
+  let score = 0;
+  QUESTIONS.forEach((q, i) => { if (answers[i] === q.answer) score++; });
+  const pct = Math.round(score / TOTAL * 100);
+  $('scoreBig').textContent = score + ' / ' + TOTAL;
+  $('scorePct').textContent = pct + '% correct';
+  $('scoreMsg').textContent =
+    pct >= 90 ? 'Excellent! EPS-TOPIK ready. 🎉' :
+    pct >= 70 ? 'Very good! Keep polishing the weak ones.' :
+    pct >= 50 ? 'Good start — review the wrong ones below and try again.' :
+    'Keep practicing — the explanations below will help.';
+  $('quizView').classList.add('hidden');
+  $('submitBar').classList.add('hidden');
+  $('resultView').classList.remove('hidden');
+  renderReview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderReview() {
+  const list = $('reviewList');
+  list.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const mine = answers[i];
+    const ok = mine === q.answer;
+    if (reviewFilter === 'wrong' && ok) return;
+    if (reviewFilter === 'correct' && !ok) return;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (ok ? 'correct' : 'wrong');
+    const mineText = mine === undefined ? 'No answer' : circled[mine] + ' ' + q.options[mine];
+    card.innerHTML =
+      '<div class="verdict ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓ Correct' : '✗ Wrong') + ' — Question ' + q.n + '</div>' +
+      '<div class="q-text"></div>' +
+      '<div class="ans-line">Your answer: <b class="' + (ok ? 'right' : 'mine-wrong') + '"></b></div>' +
+      '<div class="ans-line">Correct answer: <b class="right"></b></div>' +
+      '<div class="explain"><b>किन?</b> <span></span></div>';
+    card.querySelector('.q-text').textContent = q.q;
+    card.querySelector('.ans-line .mine-wrong, .ans-line .right').textContent = '';
+    card.querySelectorAll('.ans-line b')[0].textContent = mineText;
+    card.querySelectorAll('.ans-line b')[1].textContent = circled[q.answer] + ' ' + q.options[q.answer];
+    card.querySelector('.explain span').textContent = q.explain;
+    list.appendChild(card);
+  });
+  if (!list.children.length) {
+    list.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">No questions in this filter.</p>';
+  }
+}
+
+$('prevBtn').addEventListener('click', () => { if (page > 0) { page--; renderPage(); saveProgress(); } });
+$('nextBtn').addEventListener('click', () => { if ((page + 1) * PER_PAGE < TOTAL) { page++; renderPage(); saveProgress(); } });
+$('submitBtn').addEventListener('click', submitQuiz);
+$('clearBtn').addEventListener('click', () => {
+  if (!confirm('Sabai answers clear garne? Saved progress pani delete hunchha.')) return;
+  Object.keys(answers).forEach(k => delete answers[k]);
+  clearProgress();
+  page = 0;
+  renderPage(); updateProgress();
+  window.scrollTo({ top: 0 });
+});
+$('retryBtn').addEventListener('click', () => {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  clearProgress();
+  submitted = false; page = 0; reviewFilter = 'all';
+  document.querySelectorAll('.filters button').forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
+  $('resultView').classList.add('hidden');
+  $('quizView').classList.remove('hidden');
+  $('submitBar').classList.remove('hidden');
+  renderPage(); updateProgress();
+  window.scrollTo({ top: 0 });
+});
+$('reviewTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+document.querySelectorAll('.filters button').forEach(b => {
+  b.addEventListener('click', () => {
+    reviewFilter = b.dataset.filter;
+    document.querySelectorAll('.filters button').forEach(x => x.classList.toggle('active', x === b));
+    renderReview();
+  });
+});
+
+renderPage();
+updateProgress();
+</script>
+</body>
+</html>

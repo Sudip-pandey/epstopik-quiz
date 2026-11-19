@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPS-TOPIK Quiz — Set 11 (Q501–Q550)</title>
+<style>
+  :root {
+    --primary: #1a73e8;
+    --primary-dark: #1557b0;
+    --green: #188038;
+    --green-bg: #e6f4ea;
+    --red: #d93025;
+    --red-bg: #fce8e6;
+    --bg: #f0f4f9;
+    --card: #ffffff;
+    --text: #1f1f1f;
+    --muted: #5f6368;
+    --border: #dadce0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Noto Sans", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: var(--primary); font-weight: 700; font-size: .95rem; padding: 10px 20px; border-radius: 999px; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,.18); margin-bottom: 12px; transition: transform .15s, box-shadow .15s; }
+  .back-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.22); }
+  header { background: var(--primary); color: #fff; padding: 20px 16px 16px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+  .header-inner { max-width: 760px; margin: 0 auto; }
+  header h1 { font-size: 1.35rem; line-height: 1.3; }
+  header p { opacity: .9; font-size: .9rem; margin-top: 2px; }
+  .progress-wrap { margin-top: 12px; background: rgba(255,255,255,.25); border-radius: 999px; height: 8px; overflow: hidden; }
+  .progress-bar { height: 100%; background: #fff; width: 0%; transition: width .3s; }
+  .progress-text { font-size: .82rem; margin-top: 6px; opacity: .95; }
+  main { max-width: 760px; margin: 0 auto; padding: 20px 16px 80px; }
+  .q-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .q-card.answered { border-left: 4px solid var(--primary); }
+  .q-num { font-size: .8rem; font-weight: 700; color: var(--primary); letter-spacing: .02em; }
+  .q-text { font-size: 1.08rem; white-space: pre-line; margin: 8px 0 14px; line-height: 1.8; }
+  .options label { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: background .15s, border-color .15s; font-size: 1.02rem; }
+  .options label:hover { background: #f8f9fa; border-color: var(--primary); }
+  .options input { margin-top: 5px; accent-color: var(--primary); width: 18px; height: 18px; flex: none; }
+  .options label.selected { background: #e8f0fe; border-color: var(--primary); }
+  .pager { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 8px 0 20px; flex-wrap: wrap; }
+  .pager .page-info { font-weight: 600; color: var(--muted); }
+  button { font: inherit; cursor: pointer; border: none; border-radius: 8px; padding: 11px 22px; font-weight: 600; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-primary:disabled { background: #a8c7fa; cursor: not-allowed; }
+  .btn-ghost { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+  .submit-bar { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--border); padding: 14px 16px; display: flex; justify-content: center; box-shadow: 0 -2px 8px rgba(0,0,0,.08); }
+  .submit-bar .inner { max-width: 760px; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .submit-bar .hint { color: var(--muted); font-size: .9rem; }
+  /* Results */
+  .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 20px; text-align: center; margin-bottom: 20px; }
+  .score-card .big { font-size: 2.6rem; font-weight: 800; color: var(--primary); line-height: 1.1; }
+  .score-card .pct { font-size: 1.1rem; color: var(--muted); margin-top: 4px; }
+  .score-card .msg { margin-top: 10px; font-size: 1rem; }
+  .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters button { padding: 8px 16px; }
+  .filters button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .review-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
+  .review-card.correct { border-left: 5px solid var(--green); }
+  .review-card.wrong { border-left: 5px solid var(--red); }
+  .verdict { font-weight: 700; font-size: .95rem; margin-bottom: 6px; }
+  .verdict.ok { color: var(--green); }
+  .verdict.no { color: var(--red); }
+  .review-card .ans-line { margin: 4px 0; }
+  .review-card .ans-line b { font-weight: 700; }
+  .review-card .ans-line .mine-wrong { color: var(--red); }
+  .review-card .ans-line .right { color: var(--green); }
+  .explain { background: #f8f9fa; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: .96rem; }
+  .explain b { color: var(--primary-dark); }
+  .hidden { display: none; }
+  footer { text-align: center; color: var(--muted); font-size: .82rem; padding: 20px; }
+  @media (max-width: 520px) {
+    header h1 { font-size: 1.15rem; }
+    .q-text { font-size: 1rem; }
+    .submit-bar .hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="back-btn">&larr; Back to All 12 Sets</a>
+    <h1>EPS-TOPIK 문제은행 Quiz</h1>
+    <p>Set 11 of 12 &bull; Questions 501–550 &bull; 50 questions &bull; OurFriend Korean Language Institute</p>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-text" id="progressText">0 / 50 answered</div>
+    <div style="font-size:.78rem; margin-top:4px; opacity:.85;">Progress will be auto-saved.</div>
+  </div>
+</header>
+
+<main id="quizView">
+  <div id="questionList"></div>
+  <div class="pager">
+    <button class="btn-ghost" id="prevBtn">&larr; Previous</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button class="btn-ghost" id="nextBtn">Next &rarr;</button>
+  </div>
+</main>
+
+<div class="submit-bar" id="submitBar">
+  <div class="inner">
+    <span class="hint" id="submitHint">Answer all 50, then submit.</span>
+    <div style="display:flex; gap:8px; flex:none;">
+      <button class="btn-ghost" id="clearBtn" style="padding:11px 16px;">Clear all</button>
+      <button class="btn-primary" id="submitBtn">Submit Quiz</button>
+    </div>
+  </div>
+</div>
+
+<main id="resultView" class="hidden">
+  <div class="score-card">
+    <div class="big" id="scoreBig"></div>
+    <div class="pct" id="scorePct"></div>
+    <div class="msg" id="scoreMsg"></div>
+    <div style="margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn-primary" id="retryBtn">Try Again</button>
+      <button class="btn-ghost" id="reviewTopBtn">Back to top</button>
+    </div>
+  </div>
+  <div class="filters">
+    <button class="btn-ghost active" data-filter="all">All questions</button>
+    <button class="btn-ghost" data-filter="wrong">Wrong only</button>
+    <button class="btn-ghost" data-filter="correct">Correct only</button>
+  </div>
+  <div id="reviewList"></div>
+</main>
+
+<script>
+const QUESTIONS = [{"n": 501, "q": "우리 회사는 월급은 ______이지만 깨끗하고 복지 시설이 잘 되어 있어서 괜찮습니다.", "options": ["보통", "충분", "자주", "최고"], "answer": 0, "explain": "'보통' भनेको सामान्य वा मध्यम हुनु हो। तलब अलि सामान्य (थोरै) भए पनि काम गर्ने ठाउँ सफा र राम्रो छ भन्ने अर्थ मिल्छ। अरू शब्दहरू (पर्याप्त, अक्सर, सबैभन्दा राम्रो) ले अर्थ मिलाउँदैनन्।"}, {"n": 502, "q": "약을 살 때에는 보관 방법을 확인하는 것이 좋습니다. 실온에서 ______ 약을 냉장에 넣으면 약 성분이 변합니다.", "options": ["만들어도 되는", "보관해도 되는", "만들어야 하는", "보관해야 하는"], "answer": 3, "explain": "'보관해야 하는' भनेको भण्डारण गर्नुपर्ने (राख्नुपर्ने) हो। कोठाको तापक्रममा राख्नुपर्ने औषधि फ्रिजमा राख्यो भने औषधिको गुण बिग्रन्छ भन्ने अर्थ हुन्छ। अरू विकल्पहरू यहाँ मिल्दैनन्।"}, {"n": 503, "q": "어제 저녁부터 머리도 아프고 좀 어지럽습니다. 혈압이 떨어진 것 같아서 오후에 ______에 가려고 합니다.", "options": ["안과", "이비인후과", "내과", "정형외과"], "answer": 2, "explain": "'내과' भनेको आन्तरिक चिकित्सा (पेट, टाउको दुख्ने, रिङ्गटा लाग्ने आदि रोग हेर्ने विभाग) हो। टाउको दुख्ने र रिङ्गटा लाग्ने समस्या हुँदा內과 जानुपर्छ। अरू विभागहरू आँखा, नाक-कान-घाँटी र हाडजोर्नीसँग सम्बन्धित हुन्।"}, {"n": 504, "q": "추석과 설날은 한국 사람들에게 가장 큰 명절입니다. 그래서 보통 3-5일 동안 ______.", "options": ["쉬는 편입니다", "쉬는 중입니다", "노는 편입니다", "노는 중입니다"], "answer": 0, "explain": "'쉬는 편입니다' भनेको आराम गर्ने चलन छ वा आराम गर्ने, बिदा बस्ने हुन्छ। चाडपर्वमा ३ देखि ५ दिनसम्म बिदामा बसेर आराम गर्ने अर्थ मिल्छ। '노는' ले खेल्ने वा काम नगरी बस्ने बुझाउँछ।"}, {"n": 505, "q": "미애 씨는 다음 주부터 한국어 수업을 ______ 인터넷 홈페이지에서 수업을 신청했습니다.", "options": ["들으려고", "잡으려고", "받으려고", "읽으려고"], "answer": 0, "explain": "'들으려고' भनेको (कक्षा आदि) लिन/सुन्नका लागि हो। अर्को हप्तादेखि कोरियन भाषा कक्षा लिनका लागि होमपेजमा आवेदन दिएँ भन्ने अर्थ मिल्छ। अरू विकल्पका क्रियाहरू उपयुक्त छैनन्।"}, {"n": 506, "q": "오늘 부산에 가려고 했는데 아침에 늦게 ______ 기차를 놓쳤습니다.", "options": ["일어나는 바람에", "갈아타는 바람에", "일어나는 대신에", "갈아타는 대신에"], "answer": 0, "explain": "'일어나는 바람에' भनेको (ढिलो) उठಿದिएको कारणले गर्दा (अपेक्षित विपरीत नराम्रो परिणाम आउनु) हो। बिहान ढिलो उठेको कारणले रेल छुटेको अर्थ दिन्छ। '대신에' ले साट्न, सट्टामा भन्ने बुझाउँछ।"}, {"n": 507, "q": "아까 사람들 앞에서 넘어져서 얼마나 ______ 모릅니다. 다리가 아파서 잠시 일어설 수도 없었습니다.", "options": ["부끄러웠는지", "미끄러웠는지", "부끄러울지", "미끄러울지"], "answer": 0, "explain": "'부끄러웠는지' भनेको कति लज्जित थिएँ भन्ने हो। मानिसहरूको सामने लडेर कति लज्जित भएँ भन्ने कुरा व्यक्त गर्न यो व्याकरण प्रयोग हुन्छ। '미끄러웠는지' ले चिप्लो थियो भन्ने बुझाउँछ।"}, {"n": 508, "q": "2년 동안 같이 일했던 친구가 어제 고향에 돌아갔습니다. 너무 ______ 웃으면서 헤어졌습니다.", "options": ["섭섭하니까", "긴장되니까", "섭섭하지만", "긴장지만"], "answer": 2, "explain": "'섭섭하지만' भनेको दुखी/खल्लो लाग्छ तर... भन्ने हो। साथी गाउँ फर्किएर धेरै खल्लो/दुखी लागे पनि हाँसेर बिदाइ गर्यौं भन्ने विरोधाभास अर्थ मिल्छ। '섭섭하니까' कारण बुझाउन मिलेन।"}, {"n": 509, "q": "사람들이 여러 취미를 가지고 있습니다. 저도 취미로 여러 나라의 우표를 ______ 있습니다.", "options": ["치우고", "모으고", "빌리고", "옮기고"], "answer": 1, "explain": "'모으고' भनेको जम्मा गर्नु (सङ्कलन गर्नु) हो। हुलाक टिकटहरू सङ्कलन गर्नेትርिकाले '우표를 모으다' भनिन्छ। अरू शब्दहरूले हटाउने, सापटी लिने र सार्ने अर्थ दिन्छन्।"}, {"n": 510, "q": "저는 아침에 늦게 일어나는 습관 때문에 보통 회사 통근 버스를 _____.", "options": ["놓치는 편입니다.", "놓친 적이 있습니다.", "떠나는 편입니다.", "떠난 적이 있습니다."], "answer": 0, "explain": "'놓치는 편입니다' भनेको (समय वा यातायात) छुटाउने बानी छ भन्ने हो। बिहान ढिलो उठ्ने बानीले गर्दा कम्पनीको बस छुटाउने गर्छु भन्ने अर्थ मिल्छ। '떠나는' ले छोडेर जाने बुझाउँछ।"}, {"n": 511, "q": "우리 나라에서는 큰 공장이 없습니다. 그래서 한국에 처음 왔을 때는 기계 사용법을 몰라서 정말 ______.", "options": ["피곤했습니다.", "고생했습니다.", "즐거웠습니다", "지루했습니다."], "answer": 1, "explain": "'고생했습니다' भनेको कष्ट भोगेँ, दुःख पाइनँ भन्ने हो। कोरियामा पहिलो पटक आउँदा मेशिन चलाउने तरिका थाहा नभएर धेरै दुःख पाएँ भन्ने अर्थ मिल्छ। '즐거웠습니다' (रमाइलो भयो) र '지루했습니다' (बोर भयो) मिल्दैनन्।"}, {"n": 512, "q": "국제 전화 카드를 사용하면 요금이 쌉니다. 심야 시간이나 공휴일 등의 할인 시간에는 요금을 더 ______.", "options": ["아낄 수 있습니다.", "아껴도 됩니다", "늘릴 수 있습니다.", "늘려도 됩니다"], "answer": 0, "explain": "'아낄 수 있습니다' भनेको (पैसा वा समय) बचाउन सकिन्छ भन्ने हो। छुटको समयमा फोन शुल्क अझ बढी बचाउन सकिन्छ भन्ने अर्थ मिल्छ। '늘릴' ले बढाउने बुझाउँछ।"}, {"n": 513, "q": "저는 해야 할 일이 많거나 ______ 머리가 아프고 소화가 잘 안 되는 경우가 생깁니다.", "options": ["기쁨이 있을 때", "기쁨이 있으며", "걱정이 있을 때", "걱정이 있으며"], "answer": 2, "explain": "'걱정이 있을 때' भनेको चिन्ता हुँदा हो। धेरै काम हुँदा वा चिन्ता हुँदा टाउको दुख्ने र पचेन हुने समस्या हुन्छ भन्ने अर्थ सही हुन्छ। आनन्द (기쁨) हुँदा यो समस्या हुँदैन।"}, {"n": 514, "q": "내일 병원에서 검사를 받아야 하는데 의사가 아무 것도 먹지 말라고 했습니다. 그래서 아침까지 ______을 해야 합니다.", "options": ["금식", "추진", "퇴원", "수술"], "answer": 0, "explain": "'금식' भनेको व्रत बस्नु वा स्वास्थ्य परीक्षण/शल्यक्रिया अगाडि केही पनि नखाई बस्नु (उपवास) हो। केही पनि नखानू भनेकाले बिहानसम्म उपवास/금식 बस्नुपर्छ। '퇴원' अस्पतालबाट डिस्चार्ज हुनु हो।"}, {"n": 515, "q": "오늘은 여행 첫날입니다. 미리 예약한 호텔에 도착한 후에 우리는 먼저 여행 짐을 _______.", "options": ["정했습니다", "풀었습니다", "쌌습니다", "줬습니다"], "answer": 1, "explain": "'풀었습니다' भनेको (झोला/सामाग्री) फुकाल्नु वा खोल्नु हो। होटलमा पुगेपछि यात्राको झोला खोल्नु पर्छ (짐을 풀다)। '쌌습니다' ले झोला प्याक गर्नु बुझाउँछ तर पुगेपछि खोल्नुपर्छ।"}, {"n": 516, "q": "오늘 퇴근 후에 친한 친구와 저녁 식사를 하기로 했는데 약속한 것을 깜빡 잊어버렸습니다. 약속을 ______ 친구에게 정말 미안했습니다.", "options": ["어겨서", "지켜서", "받아서", "들어서"], "answer": 0, "explain": "'어겨서' भनेको (واعدा) भङ्ग गरेर (नराखेर) हो। साथीसँग गरेको वाचा बिर्सिएर वाचा तोडेको कारणले साथीसँग धेरै माफी मागेँ भन्ने अर्थ मिल्छ। '지켜서' ले पालना गरेर भन्ने बुझाउँछ।"}, {"n": 517, "q": "휴게실에 전기난로를 ______ 켜 놓으면 전기 요금이 많이 나오고 불이 날 수도 있습니다.", "options": ["계속", "방금", "이제", "점점"], "answer": 0, "explain": "'계속' भनेको लगातार (निरन्तर) हो। विश्राम कक्षको हिटर लगातार बालिराख्यो भने बिजुलीको बिल धेरै आउँछ र आगलागी हुन सक्छ भन्ने अर्थ मिल्छ। '방금' (भर्खरै) र '이제' (अहिले) मिल्दैनन्।"}, {"n": 518, "q": "저는 이 년 전에 토마토 농장에서 일해 본 적이 있습니다. 그래서 비료를 ______ .", "options": ["뽑을 줄 압니다", "뿌리는 편입니다", "뽑는 편입니다", "뿌릴 줄 압니다"], "answer": 3, "explain": "'뿌릴 줄 압니다' भनेको (मल/बीउ) छर्न जान्दछु भन्ने हो। मल (비료) लाई छर्ने (뿌리다) काम गरिन्छ, त्यसैले मल छर्न जान्दछु भन्ने अर्थ मिल्छ। 뽑다 ले उखेल्नु बुझाउँछ।"}, {"n": 519, "q": "우리 공장의 출근 시간은 아침 9시입니 다. 오늘 제가 30분 지각했더니 반장님 께서 저에게 다음부터는 꼭 시간을 ____ 하셨습니다.", "options": ["지켜 달라고", "채워 달라고", "알려 달라고", "비워 달라고"], "answer": 0, "explain": "'지켜 달라고' भनेको (समय आदि) पालना गरिदिनुဟု अनुरोध गर्नु हो। ढिलो आएको कारणले 반장님 ले समय पालना गरिदिनुहोस् भनी अनुरोध गर्नुभयो भन्ने अर्थ हुन्छ।"}, {"n": 520, "q": "작업장의 문이 ____ 들어갈 수 없었습 니다. 그래서 반장님께서 열쇠를 가지 고 올 때까지 우리는 기다려야 했습니 다.", "options": ["잠겨 있어서", "뚫어 놓아서", "열려 있어서", "열어 놓아서"], "answer": 0, "explain": "'잠겨 있어서' भनेको (ढोका) बन्द/ताल्चा लागेको भएर हो। ढोका बन्द भएकाले भित्र छिर्न सकिएन र साँचो लिएर नआउन्जेल कुर्नुपर्यो भन्ने अर्थ मिल्छ। '열려 있어서' ले खुलेको थियो भन्ने बुझाउँछ।"}, {"n": 521, "q": "한국의 대표적인 음식은 김치입니다. 김치는 배추, 무, 오이 등 여러 가지 ______을/를 이용해서 만듭니다.", "options": ["음료", "과일", "나물", "채소"], "answer": 3, "explain": "बदाम, मुला, काक्रो आदि तरकारीका परिकार (나물) प्रयोग गरेर किम्ची बनाइन्छ। अन्य विकल्पहरू (음료-पेय पदार्थ, 과일-फलफूल, 채소-सागसब्जी भए पनि यहाँ 나물이 मिल्छ) नमिल्ने हुनाले मिलेन।"}, {"n": 522, "q": "저는 보통 아침 6시에 일어납니다. 그런데 오늘은 ______ 일어나서 회사에 지각을 했습니다.", "options": ["일찍", "늦게", "이따가", "나중에"], "answer": 1, "explain": "ढिलो उठेको कारण काममा ढिलो (지각) भयो भन्ने अर्थमा 'ढिलो (늦게)' उपयुक्त हुन्छ। अन्य विकल्पहरू (일찍-छिटो, 이따가-अलि पछि, 나중에-पछिल्तिर) यहाँ अर्थसँग मिल्दैनन्।"}, {"n": 523, "q": "고향에 있는 친구들에게 편지를 부치려고 ______에 갔습니다. 거기에서 받을 사람의 이름과 주소를 적고 우표를 붙여서 편지를 보냈습니다.", "options": ["도서관", "편의점", "우체국", "환전소"], "answer": 2, "explain": "চিঠি पठाउन, प्रापकको नाम र ठेगाना लेख्न तथा टिकट टाँसेर पठाउन हुलाक कार्यालय (우체국) मा जानुपर्छ। अन्य विकल्पहरू (도서관-पुस्तकालय, 편의점-सुविधा स्टोर, 환전소-मुद्रा सटही काउन्टर) मा पत्र पठाउने काम हुँदैन।"}, {"n": 524, "q": "한국에서 눈을 처음 봤습니다. 겨울에 눈 내리는 것을 보면 기분이 좋습니다. 우리 나라는 항상 따뜻해서 눈이 ______ 오지 않습니다.", "options": ["조금", "전혀", "가끔", "종종"], "answer": 1, "explain": "देश सधैं न्यानो भएकोले हिउँ पटक्कै (전혀) आउँदैन भन्ने अर्थ बुझाउँछ। अन्य विकल्पहरू (조금-थोरै, 가끔-कहिलेकाहीं, 종종-प्रायः) ले 'पटक्कै आउँदैन' भन्ने वाक्यको संरचनासँग मिल्दैन।"}, {"n": 525, "q": "오늘 친구에게서 선물을 받았습니다. 선물을 ______ 풀어 봤습니다. 상자 안에는 지갑과 편지가 있었습니다.", "options": ["받자마자", "받기 전에", "드리자마자", "드리기 전에"], "answer": 0, "explain": "उपहार पाएलगत्तै (받자마자) खोलें भन्ने अर्थ दिन्छ। अन्य विकल्पहरू (받기 전에-पाउनुअघि, 드리자마자-दिनासाथ, 드리기 전에-दिनुअघि) सन्दर्भअनुसार मिल्दैनन्।"}, {"n": 526, "q": "저는 회식을 좋아합니다. 회식에 ______ 동료들과 같이 밥을 먹고 이야기를 하면서 사람들이와 쉽게 친해질 수 있습니다.", "options": ["참석하면", "들어가면", "참석하려면", "들어가려면"], "answer": 0, "explain": "회식मा सहभागी भयो भने (참석하면) साथीहरूसँग सँगै खाना खाएर घुलमिल हुन सकिन्छ। अन्य विकल्पहरू (들어 가면-प्रवेश गरेमा, 참석하려면-सहभागी हुने हो भने, 들어가려면-प्रवेश गर्ने हो भने) व्याकरण र अर्थको दृष्टिले मिल्दैनन्।"}, {"n": 527, "q": "한국 사람은 숫자 '4'가 ______ 그래서 한국에는 4층 대신에 'F'층이라고 표시되어 있는 건물들이 있습니다.", "options": ["불길하냐고 했습니다.", "불길하다고 생각합니다.", "유명하냐고 했습니다.", "유명하다고 생각합니다."], "answer": 1, "explain": "कोरियनहरूले '४' लाई अशुभ मान्छन् (불길하다고 생각합니다), त्यसैले ४ तल्लाको सट्टा 'F' लेखिन्छ। अन्य विकल्पहरू अर्थ र व्याकरण दुवै हिसाबले गलत छन्।"}, {"n": 528, "q": "어젯밤에 ______이 심하게 나서 병원에 갔습니다. 오늘 약을 먹고 집에서 쉬고 있습니다.", "options": ["열", "불", "시간", "생각"], "answer": 0, "explain": "रातभरि ज्वरो (열) धेरै आएर अस्पताल गएको भन्ने अर्थ हुन्छ। अन्य विकल्पहरू (불-आगो, 시간-समय, 생각-विचार) ज्वरो आउने सन्दर्भमा मिल्दैनन्।"}, {"n": 529, "q": "자동판매에서 물건을 살 때는 먼저 돈을 넣고 선택한 물건의 버튼을 누릅니다. 그 다음에 물건과 거스름돈을 ______ 됩니다.", "options": ["꺼내면", "놓으면", "정하면", "나누면"], "answer": 0, "explain": "स्वतः बिक्री गर्ने मेसिनबाट सामान र फिर्ता पैसा झिक्नुपर्छ (꺼내면 됩니다)। अन्य विकल्पहरू (놓으면-राख्यो भने, 정하면-निश्चित गरे भने, 나누면-बाँड्यो भने) यहाँ मिल्दैनन्।"}, {"n": 530, "q": "버스나 지하철에는 노약자석이 있습니다. 이곳은 ______이/가 많은 어르신이나 몸이 불편한 사람, 임산부 등을 위한 자리입니다.", "options": ["돈", "나이", "집", "친구"], "answer": 1, "explain": "उमेर (나이) धेरै भएका वृद्धवृद्धा, अशक्त मानिसहरूका लागि हो। अन्य विकल्पहरू (돈-पैसा, 집-घर, 친구-साथी) यहाँ अर्थसँग फिट हुँदैनन्।"}, {"n": 531, "q": "이렇게 늦으면 곤란합니다. 오늘처럼 늦을 경우에는 ______ 미리 연락해 주세요.", "options": ["벌써", "나중에", "이미", "반드시"], "answer": 3, "explain": "यसरी ढिलो हुँदा अनिवार्य रूपमा (반드시) अगावै सम्पर्क गर्नुपर्छ। अन्य विकल्पहरू (벌써-पहिले नै, 나중에-पछिल्तिर, 이미-पहिले नै) ले यो वाक्यमा सल्लाह वा अनुरोधको भाव दिन सक्दैनन्।"}, {"n": 532, "q": "다음 주에 이사를 하면 새로 사야 할 물건이 많습니다. 그래서 이번 달에는 생활비가 ______ 것 같습니다.", "options": ["다양할", "부족할", "안전할", "단순할"], "answer": 1, "explain": "नयाँ सामानहरू धेरै किन्नुपर्ने भएकोले जीवनयापनको खर्च अभाव (부족할) हुने सम्भावना छ। अन्य विकल्पहरू (다양할-विभिन्न हुने, 안전할-सुरक्षित हुने, 단순할-सादा/सरल हुने) खर्चसँग सम्बन्धित सन्दर्भमा मिल्दैनन्।"}, {"n": 533, "q": "평소 공장에 갈 때 대중교통을 이용합니다. 버스를 타고 지하철로 ______ 빨리 갈 수 있습니다.", "options": ["바꾸고", "바꾸면", "환승하고", "환승하면"], "answer": 3, "explain": "बस चढेर सबवेमा ट्रान्सफर गर्यो भने (환승하면) छिटो जान सकिन्छ। अन्य विकल्पहरू (바꾸고-बदलेर, 바꾸면-बदले भने, 환승하고-ट्रान्सफर गरेर) यहाँ व्याकरणगत वा प्राकृतिक रूपमा मिल्दैनन्।"}, {"n": 534, "q": "갈비탕이 너무 싱겁습니다. 그래서 소금을 약간 더 ______.", "options": ["넣어야 합니다", "놓을 줄 압니다", "담가야 합니다", "담글 줄 압니다"], "answer": 0, "explain": "खल्लो (싱겁다) भएको हुनाले नुन अलिकति थप हाल्नुपर्छ (넣어야 합니다)। अन्य विकल्पहरू (놓을 줄 압니다-राख्न जान्दछ, 담가야 합니다-डुबाउन/राख्न पर्छ, 담글 줄 압니다-बनाउन जान्दछ) नुन राख्ने सन्दर्भमा मिल्दैनन्।"}, {"n": 535, "q": "너무 빨리 운전을 하면 사고가 날 수 있습니다. 그래서 운전을 할 때는 ______을/를 하면 안 됩니다.", "options": ["과속", "흡연", "주차", "음주"], "answer": 0, "explain": "छिटो ड्राइभ गर्दा दुर्घटना हुन सक्छ, त्यसैले तीव्र गति (과속) गर्नु हुँदैन। अन्य विकल्पहरू (흡연-धूमपान, 주차-पार्किङ, 음주-मदिरा सेवन) ड्राइभिङसँग सीधै तीव्र गतिको अर्थमा जोडिएका छैनन्।"}, {"n": 536, "q": "요즘 너무 바빠서 해야 할 일을 ______ 잊어버립니다. 중요한 일은 잊지 않도록 메모하는 습관을 가져야겠습니다.", "options": ["따로", "잘못", "자꾸", "일찍"], "answer": 2, "explain": "व्यस्त भएकोले गर्नुपर्ने कामहरू बारम्बार (자꾸) बिर्सन्छु। अन्य विकल्पहरू (따로-छुट्टै, 잘못-गलत, 일찍-छिटो) 'बिर्सने' क्रियासँग स्वाभाविक रूपमा जोडिन सक्दैनन्।"}, {"n": 537, "q": "오늘 아침에는 날씨가 아주 ______ 오후에는 갑자기 비가 오기 시작했습니다.", "options": ["맑으려면", "맑았는데", "편하려면", "편했는데"], "answer": 1, "explain": "बिहान मौसम सफा थियो तर (맑았는데) दिउँसो अचानक पानी पर्न थाल्यो। अन्य विकल्पहरू (맑으려면-सफा हुने हो भने, 편하려면-सुविधाजनक हुने हो भने, 편했는데-सुविधाजनक थियो तर) मौसमको प्रसंगमा मिलेनन्।"}, {"n": 538, "q": "비자를 받으려면 필요한 서류를 준비해서 출입국 관리사무소에 가야 합니다. 그리고 출입국관리사무소에 서류를 ______ 기다리면 됩니다.", "options": ["받고", "보고", "제출하고", "정리하고"], "answer": 2, "explain": "कागजातहरू तयार गरेर आप्रवासी कार्यालयमा पेस गरेर (제출하고) पर्खनुपर्छ। अन्य विकल्पहरू (받고-पाएर, 보고-हेरेर, 정리하고-मिलाएर) कागजात बुझाउने सन्दर्भमा मिल्दैनन्।"}, {"n": 539, "q": "친구하고 만나기로 약속을 했는데 삼십분이나 늦었습니다. 내가 약속 시간을 못 ______ 친구는 화가 많이 났습니다.", "options": ["정해서", "지켜서", "정해야", "지켜야"], "answer": 1, "explain": "약속 시간을 지키지 못해서 (지켜서 को नकारात्मक रूप) साथी रिसाएको हो। अन्य विकल्पहरू (정해서-निश्चित गरेर, 정해야-निश्चित गर्नुपर्ने) ले समयको पालना गर्ने अर्थ दिँदैनन्।"}, {"n": 540, "q": "이 작업 도구는 편리하기는 하지만 사용할 때 조금 위험합니다. 합니다. 그래서 ______ 항상 주의해야 합니다.", "options": ["다치지 않도록", "다치지 않아도", "아프지 않도록", "아프지 않아도"], "answer": 0, "explain": "अलि खतरनाक हुने भएकोले चोट नलागोस् भन्नका लागि (다치지 않도록) सधैं सावधानी अपनाउनुपर्छ। अन्य विकल्पहरू (다치지 않아도-चोट नलागे पनि, 아프지 않도록-बिरामी नहोस् भनेर, 아프지 않아도-बिरामी नभए पनि) काम गर्ने औजारको सुरक्षा सन्दर्भमा मिल्दैनन्।"}, {"n": 541, "q": "손님을 집으로 초대하려면 여러 가지를 준비해야 합니다. 음식도 만들고 집안도 깨끗하게 _______.", "options": ["청소해야 합니다.", "이용해야 합니다.", "청소하기로 합니다.", "이용하기로 합니다."], "answer": 0, "explain": "청소해야 합니다 को अर्थ 'सरसफाइ गर्नुपर्छ' हुन्छ। घरमा पाहुना बोलाउँदा खाना बनाउने र घर सफा गर्ने काम पर्ने भएकोले यो मिल्छ। अरू विकल्पहरू सरसफाइको अर्थसँग मिल्दैनन्।"}, {"n": 542, "q": "제가 좋아하는 _____은/는 축구입니다. 주말마다 운동장에 가서 친구들과 축구를 합니다. 축구는 아주 재미있습니다.", "options": ["공부", "운동", "직업", "업무"], "answer": 1, "explain": "운동 को अर्थ 'व्यायाम/खेलकुद' हुन्छ। पछाडि फुटबल खेल्ने कुरा आएकोले मन पर्ने खेलकुद वा व्यायाम खेल फुटबल हो भन्ने बुझिन्छ। पढाइ, पेसा वा कामले फुटबलसँग अर्थ राख्दैन।"}, {"n": 543, "q": "요리책을 보고 미역국을 끓였습니다. 그런데 조금 싱거운 것 같아서 소금을 ______ 넣었습니다.", "options": ["훨씬", "별로", "약간", "잠깐"], "answer": 2, "explain": "약간 को अर्थ 'लिकोति, थोरै' हुन्छ। अलिकति नुनिलो कम (सिंघुओन) भएकाले नुन थोरै हालियो भन्ने अर्थमा '약간' मिल्छ। अरू शब्दहरूले मात्रा बुझाउँदैनन्।"}, {"n": 544, "q": "밤에 내린 눈 때문에 길이 굉장히 _______. 빙판길에 넘어지는 사람이 없도록 조심하시기 바랍니다.", "options": ["시원합니다", "깨끗합니다", "부드럽습니다", "미끄럽습니다"], "answer": 3, "explain": "미끄럽습니다 को अर्थ 'चिप्लो हुन्छ' हुन्छ। रातको समयमा परेको हिउँले गर्दा बाटो चिप्लो भएको छ र चिप्लिने मान्छे नहोस् भनेर होसियार हुनुपर्छ भनिएको छ। अरू विकल्पहरूको अर्थ यहाँ मिल्दैन।"}, {"n": 545, "q": "리한 씨가 고향으로 ______ 합니다. 퇴근 후에 환송회가 있으므로 모두 참석해 주십시오.", "options": ["돌아간다고", "초대한다고", "데려간다고", "배웅한다고"], "answer": 0, "explain": "돌아간다고 को अर्थ 'फर्कने (भनेर)' हुन्छ। रिहान जी आफ्नो देश फर्कने भएकाले बिदाइ पार्टी छ भनिएको छ। अरू शब्दहरूको अर्थ सन्दर्भसँग मिल्दैन।"}, {"n": 546, "q": "요즘 운동을 ______ 몸도 건강해지고 기분도 좋아졌습니다. 건강을 위해서 계속 운동을 해야겠습니다.", "options": ["준비하고 나면", "준비하고 나서", "시작하고 나면", "시작하고 나서"], "answer": 3, "explain": "시작하고 나서 को अर्थ 'शुरु गरेपछि' हुन्छ। व्यायाम सुरु गरेपछि शरीर स्वस्थ भयो भन्न यो व्याकरण र अर्थले ठ ακ्कै मिल्छ। '나면' ले भविष्यको वा निश्चित सर्त बुझाउँछ।"}, {"n": 547, "q": "물건을 교환하거나 환불하려면 영수증이 필요합니다. 따라서 물건을 구입하고 영수증을 꼭 ______ 합니다.", "options": ["바꿀까", "받으면", "바꿔야", "받아야"], "answer": 3, "explain": "바꿔야 को अर्थ 'साट्नै पर्छ' हुन्छ। सामान साट्न वा पैसा फिर्ता लिन रसिद चाहिने हुनाले खरिद गरेपछि रसिद अनिवार्य लिनुपर्छ भन्ने अर्थमा '꼭 받아야 합니다' हुन्छ।"}, {"n": 548, "q": "허리가 아파서 병원에 갔는데 수술을 받는 게 좋겠다고 했습니다. 간단한 수술이니까 일주일 정도 병가를 ______ .", "options": ["내고 있습니다", "끝내고 있습니다", "내면 될 것 같습니다", "끝나면 될 것 같습니다"], "answer": 2, "explain": "내면 될 것 같습니다 को अर्थ 'बिरामी बिदा लिए हुन्छ' हुन्छ। ढाड दुखेर अप्रेसन गर्नुपर्ने भएपछि एक हप्ता जति बिरामी बिदा लिँदा हुन्छ भन्ने सल्लाह दिइएको छ।"}, {"n": 549, "q": "어제 저는 공사장에서 철근을 ______ 발목을 삐었습니다. 그래서 반장님과 바로 병원에 가서 치료를 받았습니다.", "options": ["나르다가", "나르면서", "오리다가", "오리면서"], "answer": 0, "explain": "나르다가 को अर्थ 'सार्ने/बोक्는 क्रममा' हुन्छ। निर्माणस्थलमा रड ओसार्ने क्रममा गोलीगाँठा मर्काएको अर्थ बुझाउन '나르다가' सही हुन्छ।"}, {"n": 550, "q": "여행지에서 돌아오자마자 짐을 _____. 그리고 가족들에게 선물을 나누어 주었습니다.", "options": ["샀습니다", "보냈습니다", "풀었습니다", "버렸습니다"], "answer": 2, "explain": "풀었습니다 को अर्थ 'खोल्नु/फुुकाल्नु' हुन्छ। यात्राबाट फर्किनेबित्तिकै झोला (सामान) फुकाल्नु वा खोल्नु भन्ने अर्थमा '짐을 풀다' प्रयोग हुन्छ।"}];
+
+const PER_PAGE = 20;
+const TOTAL = QUESTIONS.length;
+const SET_ID = 'eps-set-11';
+const answers = {}; // question index -> chosen option index
+let page = 0;
+let submitted = false;
+let reviewFilter = 'all';
+
+// --- progress auto-save (localStorage) ---
+// Saved per set (key includes SET_ID), so each set file keeps its own
+// progress. Wrapped in try/catch: if the browser blocks storage, the quiz
+// still works, it just won't remember progress.
+const STORE_KEY = 'eps-quiz-' + SET_ID;
+function storeAvailable() {
+  try { localStorage.setItem('__eps_test__', '1'); localStorage.removeItem('__eps_test__'); return true; }
+  catch (e) { return false; }
+}
+const storeOK = storeAvailable();
+function saveProgress() {
+  if (!storeOK) return;
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ answers: answers, page: page })); } catch (e) {}
+}
+function loadProgress() {
+  if (!storeOK) return;
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data && data.answers) {
+      Object.keys(data.answers).forEach(k => { answers[k] = data.answers[k]; });
+      if (typeof data.page === 'number' && data.page >= 0 && data.page < Math.ceil(TOTAL / PER_PAGE)) page = data.page;
+    }
+  } catch (e) {}
+}
+function clearProgress() {
+  if (storeOK) { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+}
+loadProgress();
+
+const $ = (id) => document.getElementById(id);
+const circled = ['①','②','③','④'];
+
+function updateProgress() {
+  const done = Object.keys(answers).length;
+  $('progressBar').style.width = (done / TOTAL * 100) + '%';
+  $('progressText').textContent = done + ' / ' + TOTAL + ' answered';
+  $('submitHint').textContent = done === TOTAL ? 'All answered — ready to submit!' : (TOTAL - done) + ' unanswered (counted wrong on submit).';
+}
+
+function renderPage() {
+  const list = $('questionList');
+  list.innerHTML = '';
+  const start = page * PER_PAGE;
+  const end = Math.min(start + PER_PAGE, TOTAL);
+  for (let i = start; i < end; i++) {
+    const q = QUESTIONS[i];
+    const card = document.createElement('div');
+    card.className = 'q-card' + (answers[i] !== undefined ? ' answered' : '');
+    card.innerHTML =
+      '<div class="q-num">Question ' + q.n + '</div>' +
+      '<div class="q-text"></div>' +
+      '<div class="options"></div>';
+    card.querySelector('.q-text').textContent = q.q;
+    const opts = card.querySelector('.options');
+    q.options.forEach((opt, oi) => {
+      const label = document.createElement('label');
+      if (answers[i] === oi) label.classList.add('selected');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'q' + i;
+      input.checked = answers[i] === oi;
+      input.addEventListener('change', () => {
+        answers[i] = oi;
+        card.classList.add('answered');
+        card.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        updateProgress();
+        saveProgress();
+      });
+      const span = document.createElement('span');
+      span.textContent = circled[oi] + ' ' + opt;
+      label.appendChild(input);
+      label.appendChild(span);
+      opts.appendChild(label);
+    });
+    list.appendChild(card);
+  }
+  $('pageInfo').textContent = 'Page ' + (page + 1) + ' of ' + Math.ceil(TOTAL / PER_PAGE) + '  (Q' + QUESTIONS[start].n + '–Q' + QUESTIONS[end - 1].n + ')';
+  $('prevBtn').disabled = page === 0;
+  $('nextBtn').disabled = end >= TOTAL;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitQuiz() {
+  const unanswered = TOTAL - Object.keys(answers).length;
+  if (unanswered > 0 && !confirm(unanswered + ' question(s) still unanswered — they will count as wrong. Submit anyway?')) return;
+  submitted = true;
+  let score = 0;
+  QUESTIONS.forEach((q, i) => { if (answers[i] === q.answer) score++; });
+  const pct = Math.round(score / TOTAL * 100);
+  $('scoreBig').textContent = score + ' / ' + TOTAL;
+  $('scorePct').textContent = pct + '% correct';
+  $('scoreMsg').textContent =
+    pct >= 90 ? 'Excellent! EPS-TOPIK ready. 🎉' :
+    pct >= 70 ? 'Very good! Keep polishing the weak ones.' :
+    pct >= 50 ? 'Good start — review the wrong ones below and try again.' :
+    'Keep practicing — the explanations below will help.';
+  $('quizView').classList.add('hidden');
+  $('submitBar').classList.add('hidden');
+  $('resultView').classList.remove('hidden');
+  renderReview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderReview() {
+  const list = $('reviewList');
+  list.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const mine = answers[i];
+    const ok = mine === q.answer;
+    if (reviewFilter === 'wrong' && ok) return;
+    if (reviewFilter === 'correct' && !ok) return;
+    const card = document.createElement('div');
+    card.className = 'review-card ' + (ok ? 'correct' : 'wrong');
+    const mineText = mine === undefined ? 'No answer' : circled[mine] + ' ' + q.options[mine];
+    card.innerHTML =
+      '<div class="verdict ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓ Correct' : '✗ Wrong') + ' — Question ' + q.n + '</div>' +
+      '<div class="q-text"></div>' +
+      '<div class="ans-line">Your answer: <b class="' + (ok ? 'right' : 'mine-wrong') + '"></b></div>' +
+      '<div class="ans-line">Correct answer: <b class="right"></b></div>' +
+      '<div class="explain"><b>किन?</b> <span></span></div>';
+    card.querySelector('.q-text').textContent = q.q;
+    card.querySelector('.ans-line .mine-wrong, .ans-line .right').textContent = '';
+    card.querySelectorAll('.ans-line b')[0].textContent = mineText;
+    card.querySelectorAll('.ans-line b')[1].textContent = circled[q.answer] + ' ' + q.options[q.answer];
+    card.querySelector('.explain span').textContent = q.explain;
+    list.appendChild(card);
+  });
+  if (!list.children.length) {
+    list.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">No questions in this filter.</p>';
+  }
+}
+
+$('prevBtn').addEventListener('click', () => { if (page > 0) { page--; renderPage(); saveProgress(); } });
+$('nextBtn').addEventListener('click', () => { if ((page + 1) * PER_PAGE < TOTAL) { page++; renderPage(); saveProgress(); } });
+$('submitBtn').addEventListener('click', submitQuiz);
+$('clearBtn').addEventListener('click', () => {
+  if (!confirm('Sabai answers clear garne? Saved progress pani delete hunchha.')) return;
+  Object.keys(answers).forEach(k => delete answers[k]);
+  clearProgress();
+  page = 0;
+  renderPage(); updateProgress();
+  window.scrollTo({ top: 0 });
+});
+$('retryBtn').addEventListener('click', () => {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  clearProgress();
+  submitted = false; page = 0; reviewFilter = 'all';
+  document.querySelectorAll('.filters button').forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
+  $('resultView').classList.add('hidden');
+  $('quizView').classList.remove('hidden');
+  $('submitBar').classList.remove('hidden');
+  renderPage(); updateProgress();
+  window.scrollTo({ top: 0 });
+});
+$('reviewTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+document.querySelectorAll('.filters button').forEach(b => {
+  b.addEventListener('click', () => {
+    reviewFilter = b.dataset.filter;
+    document.querySelectorAll('.filters button').forEach(x => x.classList.toggle('active', x === b));
+    renderReview();
+  });
+});
+
+renderPage();
+updateProgress();
+</script>
+</body>
+</html>
